@@ -3,21 +3,39 @@
 <br>
 
 ## Coursera Reproducible Peer Assignment 1 coal
-The coal of this excercise is to get familiar with that consept at all research
-should document in that level at anyone can reproduce it and chech if one can 
+The coal of this exercise is to get familiar with that concept at all research
+should document in that level at anyone can reproduce it and check if one can 
 end up to the same result.
 Other coal is use [literate programming](http://www.literateprogramming.com/)
 using R and [markdown](http://en.wikipedia.org/wiki/Markdown)
 
 ##Research of the Assignment
 
+[Below * means at the section is from the original assignment introduction](https://github.com/rdpeng/RepData_PeerAssessment1)
+
+*It is now possible to collect a large amount of data about personal
+movement using activity monitoring devices such as a
+[Fitbit](http://www.fitbit.com), [Nike
+Fuelband](http://www.nike.com/us/en_us/c/nikeplus-fuelband), or
+[Jawbone Up](https://jawbone.com/up). These type of devices are part of
+the "quantified self" movement -- a group of enthusiasts who take
+measurements about themselves regularly to improve their health, to
+find patterns in their behavior, or because they are tech geeks. But
+these data remain under-utilized both because the raw data are hard to
+obtain and there is a lack of statistical methods and software for
+processing and interpreting the data.
+
+This assignment makes use of data from a personal activity monitoring
+device. This device collects data at 5 minute intervals through out the
+day. The data consists of two months of data from an anonymous
+individual collected during the months of October and November, 2012
+and include the number of steps taken in 5 minute intervals each day.*
 
 
 
 ### Loading and preprocessing the data
-Data
 
-The data for this assignment can be downloaded from the course web site:
+*The data for this assignment can be downloaded from the course web site:
 
 Dataset: Activity monitoring data [52K]
 The variables included in this dataset are:
@@ -30,14 +48,16 @@ interval: Identifier for the 5-minute interval in which measurement was taken
 
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
-Data will load from coursera Reproducible course site in working directory.
+Data will load from coursera Reproducible course site in working directory.*
+
 Data is downloaded 2014.12.08 (yyyy.mm.dd)
+Because data came with clone of course BitHub repository next download not in use. If you need it please uncomment this code chunk.
 
 ```r
-url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+#url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 #download.file(url, file.path(getwd(), "Factivity.zip"))
 ```
-Next zip packet will unzip to read data in the
+Next zip packet will unzip to read data in the dta 
 
 ```r
 unzip("Factivity.zip")
@@ -72,8 +92,8 @@ summary(dta)
 ##  NA's   :2304     (Other)   :15840
 ```
 
-
-
+We can see there is lots of missing values in steps at least begining of data vector.
+Median is O how that can be?
 
 load data.table library in order to handling data effectivily
 
@@ -87,72 +107,41 @@ First given task
 
 ### What is mean total number of steps taken per day?
 
-What is mean total number of steps taken per day?
+*What is mean total number of steps taken per day?
 
 For this part of the assignment, you can ignore the missing values in the dataset.
 
 Make a histogram of the total number of steps taken each day
 
-Calculate and report the mean and median total number of steps taken per day
+Calculate and report the mean and median total number of steps taken per day*
 
-Creating histogram
+Creating histogram:
 First taking out missing values "na" and in order to get total numbers of taken steps per day you can summarize steps in each day in the data table
 and finely print out histogram
 
 ```r
 dta_table <- na.omit(dta_table_all)
 subset_data_hist <- dta_table[, list(Sum_steps = sum(steps)), by=c("date")]
-summary(subset_data_hist)
-```
-
-```
-##          date      Sum_steps    
-##  2012-10-02: 1   Min.   :   41  
-##  2012-10-03: 1   1st Qu.: 8841  
-##  2012-10-04: 1   Median :10765  
-##  2012-10-05: 1   Mean   :10766  
-##  2012-10-06: 1   3rd Qu.:13294  
-##  2012-10-07: 1   Max.   :21194  
-##  (Other)   :47
-```
-
-```r
-str(subset_data_hist)
-```
-
-```
-## Classes 'data.table' and 'data.frame':	53 obs. of  2 variables:
-##  $ date     : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 2 3 4 5 6 7 9 10 11 12 ...
-##  $ Sum_steps: int  126 11352 12116 13294 15420 11015 12811 9900 10304 17382 ...
-##  - attr(*, ".internal.selfref")=<externalptr>
-```
-
-```r
-head(subset_data_hist)
-```
-
-```
-##          date Sum_steps
-## 1: 2012-10-02       126
-## 2: 2012-10-03     11352
-## 3: 2012-10-04     12116
-## 4: 2012-10-05     13294
-## 5: 2012-10-06     15420
-## 6: 2012-10-07     11015
-```
-
-```r
+#just for checking the data
+#summary(subset_data_hist)
+#str(subset_data_hist)
+#head(subset_data_hist)
+png("figure/Histogram1.png", height = 480, width = 600)
 hist(subset_data_hist$Sum_steps)
+dev.off()
 ```
 
-![](./PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+```
+## pdf 
+##   2
+```
 
 ```r
 #plot(subset_data_hist, freq = Sum_steps)
 ```
+![Steps histogram](figure/Histogram1.png) 
 
-
-Calculating and reportimg the mean and median total number of steps taken per day you can use same data table which is already cleaned missed values and calculate mean and median by date
+Calculating and reporting the mean and median total number of steps taken per day you can use same data table which is already cleaned missed values and calculate mean and median by date
 
 ```r
 #dta_table <- na.omit(dta_table)
@@ -219,26 +208,31 @@ print(subset_data)
 ##           date Mean_steps Median_steps
 ```
 
-
-
 Second given task
 
 ### What is the average daily activity pattern?
 
-Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+*Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
-Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?*
 
-Creating time series plot
+Creating Activity Pattern time series plot 
 
 ```r
+png("figure/activity_pattern.png", height = 480, width = 600)
 activity_pattern <- aggregate(steps ~ interval, data = dta_table, FUN = mean)
 plot(activity_pattern, type = "l")
+dev.off()
 ```
 
-![](./PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+```
+## pdf 
+##   2
+```
+![activity_pattern](figure/activity_pattern.png) 
 
-Maximun steps taken in interval
+Maximum steps taken in interval
+
 
 ```r
 dta_table[which.max(dta_table$steps),]
@@ -249,10 +243,11 @@ dta_table[which.max(dta_table$steps),]
 ## 1:   806 2012-11-27      615
 ```
 
-thrird given task
+third given task
 
 ### Imputing missing values
-Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
+
+*Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
 
 Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
@@ -260,9 +255,12 @@ Devise a strategy for filling in all of the missing values in the dataset. The s
 
 Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
-Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?*
 
-Calculating na rows. Because we have data tables with and without na we can simple subract all rows data table 
+Missing values (na) replacement stragecy:
+We have already calculated median for each day so we use that daily mean to replace na.
+
+Calculating na rows. Because we have data tables with and without na we can simple subtract all rows data table 
 Total number of missing values "na" rows is
 
 ```r
@@ -274,33 +272,16 @@ nrow(dta_table_all)-nrow(dta_table)
 ```
 
 
-We using already calculated dayly mean to replace "na" values.
-Firs we join original all rows data (dta_table_all) and mean table (subset_data)
-Second step is replase steps "na" with Mean_steps value and finally we take subset from table which is similar than original exept there is "na"s replaced
+We are using already calculated daily mean to replace "na" values.
+Firs we join original all rows data (dta_table_all) and mean table (subset_data). Joining method is all.x=T because otherwise we lost those lines which have not mean for that day.
+
 
 ```r
+#merge_data<-merge(dta_table_all,subset_data, by="date")
 merge_data<-merge(dta_table_all,subset_data, by="date",all.x=T)
 
-#merge_data<-merge(dta_table_all,subset_data, by="date")
-head(merge_data, 300)
-```
-
-```
-##            date steps interval Mean_steps Median_steps
-##   1: 2012-10-01    NA        0         NA           NA
-##   2: 2012-10-01    NA        5         NA           NA
-##   3: 2012-10-01    NA       10         NA           NA
-##   4: 2012-10-01    NA       15         NA           NA
-##   5: 2012-10-01    NA       20         NA           NA
-##  ---                                                  
-## 296: 2012-10-02     0       35     0.4375            0
-## 297: 2012-10-02     0       40     0.4375            0
-## 298: 2012-10-02     0       45     0.4375            0
-## 299: 2012-10-02     0       50     0.4375            0
-## 300: 2012-10-02     0       55     0.4375            0
-```
-
-```r
+#just for looking at data seems to be ok
+#head(merge_data, 300)
 str(merge_data)
 ```
 
@@ -338,18 +319,16 @@ summary(merge_data)
 ##  NA's   :2304
 ```
 
-```r
-#dta_table_all_na_replaced<-merge_data[,steps:=mean(Mean_steps),by=date]
-#for (col = "steps" y[is.na(get(col)), (col) := 0]
-  
-#dta_table_all_na_replaced <- merge_data[is.na(x[1:2])]<-0
-#merge_data[, ]
+Second step is replase steps "na" with Mean_steps value and finally we take subset from table which is similar than original exept there is "na"s replaced
 
+
+```r
 data_na_imputed <-merge_data[,steps:=
                         {ifelse(is.na(merge_data$Mean_steps),0,
                         ifelse(is.na(merge_data$steps),
                         merge_data$Mean_steps,
                         merge_data$steps))}]
+#take away un necessary columns to get original look for data.table
 data_na_imputed$Mean_steps<-NULL
 data_na_imputed$Median_steps<-NULL
 summary(data_na_imputed)
@@ -366,29 +345,33 @@ summary(data_na_imputed)
 ##  (Other)   :15840
 ```
 
+Creating histogram of all data with na
+
 ```r
-#data_na_imputed<-merge_data[,c(x,date,interval)]
-#summary(data_na_imputed)
-
-#setnames(data_na_imputed, "x", "steps")
-
+png("figure/Histogram2.png", height = 480, width = 600)
 subset_data_hist2 <- data_na_imputed[,
                         list(Sum_steps2 = sum(steps)), by=c("date")]
 hist(subset_data_hist2$Sum_steps2)
+dev.off()
 ```
 
-![](./PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
+```
+## pdf 
+##   2
+```
+
+![Histogram steps2](figure/Histogram2.png) 
+
+
+
+Histograms shows that there is more days with relative small amount of steps now than earlier.
+
+Calculating and reporting Mean and Median
+
 
 ```r
-#merge_data$steps[is.na(merge_data2$steps)] <- 0
-#merge_data_na <- is.na(merge_data$steps)
-#activity$steps[nas] <- activity$steps.y[nas]
-#activity <- activity[, c(1:3)]
-
-
 subset_data2 <- data_na_imputed[, list(Mean_steps = mean(steps),
                                 Median_steps = median(steps)), by=c("date")]
-
 print(subset_data2)
 ```
 
@@ -457,15 +440,64 @@ print(subset_data2)
 ## 61: 2012-11-30  0.0000000            0
 ##           date Mean_steps Median_steps
 ```
-
-
-### Are there differences in activity patterns between weekdays and weekends?
-
-
+Per day mean is not changed so much and median not at all.
+But when we compare summaries for each data we can see whole column mean is tropped.
 
 
 ```r
-Sys.setenv(LANGUAGE="en")
+summary(dta)
+```
+
+```
+##      steps                date          interval     
+##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
+##  Median :  0.00   2012-10-03:  288   Median :1177.5  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
+##  3rd Qu.: 12.00   2012-10-05:  288   3rd Qu.:1766.2  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##  NA's   :2304     (Other)   :15840
+```
+
+```r
+summary(data_na_imputed)
+```
+
+```
+##          date           steps           interval     
+##  2012-10-01:  288   Min.   :  0.00   Min.   :   0.0  
+##  2012-10-02:  288   1st Qu.:  0.00   1st Qu.: 588.8  
+##  2012-10-03:  288   Median :  0.00   Median :1177.5  
+##  2012-10-04:  288   Mean   : 32.48   Mean   :1177.5  
+##  2012-10-05:  288   3rd Qu.:  0.00   3rd Qu.:1766.2  
+##  2012-10-06:  288   Max.   :806.00   Max.   :2355.0  
+##  (Other)   :15840
+```
+
+
+
+fourth given task
+
+### Are there differences in activity patterns between weekdays and weekends?
+
+*For this part the `weekdays()` function may be of some help here. Use
+the dataset with the filled-in missing values for this part.
+
+1. Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+
+2. Make a panel plot containing a time series plot (i.e. `type = "l"`) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).*
+
+First we need to add factor variable day_type. We will using weekdays() function to do this.
+For some reason I didn't not able to get English language in use.
+So the following code works in Finnish language installation.
+We you run this you need to change those day names (lauantai = Saturday 
+and sunnuntai = Sunday)
+
+
+```r
+#Sys.setenv(LANGUAGE="en")
+
+#language = EN
 
 week_day_type <- function(date) {
        # as.POSIXlt(data_na_imputed$date)$wday
@@ -477,14 +509,15 @@ week_day_type <- function(date) {
     }
 data_na_imputed$day_type <- as.factor(sapply(
         data_na_imputed$date, week_day_type))
+```
+
+We using gglot to create plot. 
+First calculating average for each interval
+Second draw a time series plot with to lines.
+This helps to compare each activity pattern when graphs are one in the other.
 
 
-
-
-subset_data_day_type <- data_na_imputed[, list(Mean_steps = mean(steps)),
-                                , by=c("interval","day_type")]
-#print(subset_data_day_type)
-#str(subset_data_day_type$day_type)
+```r
 library(ggplot2)
 ```
 
@@ -493,6 +526,11 @@ library(ggplot2)
 ```
 
 ```r
+subset_data_day_type <- data_na_imputed[, list(Mean_steps = mean(steps)),
+                                , by=c("interval","day_type")]
+#print(subset_data_day_type)
+#str(subset_data_day_type$day_type)
+
 png("figure/ActivityPatterns_DayType.png", height = 480, width = 600)
 
 g<-qplot(interval,Mean_steps, 
@@ -500,6 +538,7 @@ g<-qplot(interval,Mean_steps,
            color = day_type,
            geom="line",
            main="Activity Patterns by day type")
+g
 dev.off()      
 ```
 
@@ -508,9 +547,4 @@ dev.off()
 ##   2
 ```
 
-```r
-g
-```
-
-![](./PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
-
+![ActivityPatterns_DayType](figure/ActivityPatterns_DayType.png) 

@@ -1,3 +1,13 @@
+# Coursera Reproducible Peer Assignment 1 coal
+The coal of this exercise is to get familiar with that consept at all research
+should document in that level at anyone can reproduce it and chech if one can 
+end up to the same result.
+Other coal is use [literate programming](http://www.literateprogramming.com/)
+using R and [markdown](http://en.wikipedia.org/wiki/Markdown)
+
+
+##Original assignment definition begin from here.
+
 ## Introduction
 
 It is now possible to collect a large amount of data about personal
