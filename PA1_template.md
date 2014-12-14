@@ -282,41 +282,8 @@ merge_data<-merge(dta_table_all,subset_data, by="date",all.x=T)
 
 #just for looking at data seems to be ok
 #head(merge_data, 300)
-str(merge_data)
-```
-
-```
-## Classes 'data.table' and 'data.frame':	17568 obs. of  5 variables:
-##  $ date        : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ steps       : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ interval    : int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ Mean_steps  : num  NA NA NA NA NA NA NA NA NA NA ...
-##  $ Median_steps: num  NA NA NA NA NA NA NA NA NA NA ...
-##  - attr(*, ".internal.selfref")=<externalptr> 
-##  - attr(*, "sorted")= chr "date"
-```
-
-```r
-summary(merge_data)
-```
-
-```
-##          date           steps           interval        Mean_steps     
-##  2012-10-01:  288   Min.   :  0.00   Min.   :   0.0   Min.   : 0.1424  
-##  2012-10-02:  288   1st Qu.:  0.00   1st Qu.: 588.8   1st Qu.:30.6979  
-##  2012-10-03:  288   Median :  0.00   Median :1177.5   Median :37.3785  
-##  2012-10-04:  288   Mean   : 37.38   Mean   :1177.5   Mean   :37.3826  
-##  2012-10-05:  288   3rd Qu.: 12.00   3rd Qu.:1766.2   3rd Qu.:46.1597  
-##  2012-10-06:  288   Max.   :806.00   Max.   :2355.0   Max.   :73.5903  
-##  (Other)   :15840   NA's   :2304                      NA's   :2304     
-##   Median_steps 
-##  Min.   :0     
-##  1st Qu.:0     
-##  Median :0     
-##  Mean   :0     
-##  3rd Qu.:0     
-##  Max.   :0     
-##  NA's   :2304
+#str(merge_data)
+#summary(merge_data)
 ```
 
 Second step is replase steps "na" with Mean_steps value and finally we take subset from table which is similar than original exept there is "na"s replaced
@@ -331,18 +298,7 @@ data_na_imputed <-merge_data[,steps:=
 #take away un necessary columns to get original look for data.table
 data_na_imputed$Mean_steps<-NULL
 data_na_imputed$Median_steps<-NULL
-summary(data_na_imputed)
-```
-
-```
-##          date           steps           interval     
-##  2012-10-01:  288   Min.   :  0.00   Min.   :   0.0  
-##  2012-10-02:  288   1st Qu.:  0.00   1st Qu.: 588.8  
-##  2012-10-03:  288   Median :  0.00   Median :1177.5  
-##  2012-10-04:  288   Mean   : 32.48   Mean   :1177.5  
-##  2012-10-05:  288   3rd Qu.:  0.00   3rd Qu.:1766.2  
-##  2012-10-06:  288   Max.   :806.00   Max.   :2355.0  
-##  (Other)   :15840
+#summary(data_na_imputed)
 ```
 
 Creating histogram of all data with na

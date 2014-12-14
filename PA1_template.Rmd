@@ -179,8 +179,8 @@ merge_data<-merge(dta_table_all,subset_data, by="date",all.x=T)
 
 #just for looking at data seems to be ok
 #head(merge_data, 300)
-str(merge_data)
-summary(merge_data)
+#str(merge_data)
+#summary(merge_data)
 
 ```
 
@@ -195,7 +195,7 @@ data_na_imputed <-merge_data[,steps:=
 #take away un necessary columns to get original look for data.table
 data_na_imputed$Mean_steps<-NULL
 data_na_imputed$Median_steps<-NULL
-summary(data_na_imputed)
+#summary(data_na_imputed)
 
 ```
 
